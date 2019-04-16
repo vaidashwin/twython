@@ -19,6 +19,7 @@ import os
 import warnings
 from io import BytesIO
 from time import sleep
+import urllib.parse
 #try:
     #from StringIO import StringIO
 #except ImportError:
@@ -268,7 +269,11 @@ class EndpointsMixin(object):
         https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed
 
         """
-        return self.get('oembed', params=params)
+        url = 'https://publish.twitter.com/oembed?%s' % urllib.parse.urlencode(params)
+        return self._request(url,
+            method='GET',
+            params={},
+            api_call=url)
 
     def get_retweeters_ids(self, **params):
         """Returns a collection of up to 100 user IDs belonging to users who
